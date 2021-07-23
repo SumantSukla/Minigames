@@ -1,0 +1,2519 @@
+<html>
+<title>Laser Shooter</title>
+<font face="COLONNA MT">
+<body bgcolor="black" text="grey">
+<center>
+<div id="score"><hr noshade><h1><font color="firebrick">Laser Shooter</font>
+<hr noshade>
+<p><h1>Oh no! The aliens are attacking!
+<br>The whole Alien Armada to invade Earth and destroy it using their powerful deathray!
+<br>You'll have to control a Spaceship and shoot lasers to destroy the the aliens.
+<br>Use the Left and Right Arrow keys to control the Spaceship. Use the Up Arrow key to shoot.
+<br>If you are able to do this, we will win!
+<p>Good Luck!
+<p><input type="button" onclick="javascript:game()" value="START"></div>
+</div>
+<style>
+body{
+  background-image: url('./img/space.gif');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  overflow: hidden
+}
+canvas {
+  border: 8px solid black;
+  height: 642px; 
+}
+input{
+  border-radius: 12px;
+  height:40px;
+  width:100px;
+  font-size:18pt;
+  background-color: lightgrey;
+  font-family: COLONNA MT;
+  font-size: 29px;
+}
+input:hover {
+  color:#150404;
+  border: 3px outset #400c0c;
+  background-color: firebrick;
+  box-shadow: 0 0px 50px 3px #da3e3e;
+}
+input:active {
+  background-color: darkred;
+  box-shadow: 0 5px #400c0c;
+  transform: translateY(4px);
+}
+</style>
+<script>
+var poster=document.createElement("img")
+document.body.appendChild(poster);
+poster.src="./img/poster.png"
+poster.style.width= 600
+poster.style.left= 50
+poster.style.top= -150//-420//-1000
+poster.style.position="relative"
+
+var earthPoster=document.createElement("img")
+document.body.appendChild(earthPoster);
+earthPoster.src="./img/earth.png"
+earthPoster.style.width= 1000
+earthPoster.style.left= 190
+earthPoster.style.top= -275
+earthPoster.style.position="relative"
+
+var poster1=document.createElement("img")
+document.body.appendChild(poster1);
+poster1.src="./img/poster1.png"
+poster1.style.width= 600
+poster1.style.left= 750
+poster1.style.top= -1470//-420//-1000
+poster1.style.position="relative"
+
+function game(){
+
+poster.remove()
+earthPoster.remove()
+poster1.remove()
+
+var canvas = document.createElement("CANVAS");
+canvas.style.position="absolute";
+canvas.style.left="30px";
+canvas.style.right="0px";
+canvas.style.bottom="-1px";
+canvas.style.top="-1px";
+document.body.appendChild(canvas)
+
+var enemy9=document.createElement("img")
+document.body.appendChild(enemy9);
+var choose1 = Math.random()*100
+var enemyXval9
+var enemySpeed9
+if(choose1<=40){
+	enemy9.src="./img/Illenemy1.png"
+	enemy9.style.width= 100
+	enemyXval9 = 100
+	enemySpeed9 = 0.5
+}else if(choose1>40 && choose1<=75){
+	enemy9.src="./img/Illenemy.png"
+	enemy9.style.width= 100
+	enemyXval9 = 100
+	enemySpeed9= 0.3
+}else if(choose1>75 && choose1<=93){
+	enemy9.src="./img/Illenemy2.png"
+	enemy9.style.width= 150
+	enemyXval9 = 150
+	enemySpeed9 = 0.1
+}else if(choose1>0 && choose1<=100){
+	enemy9.src="./img/Illenemy4.png"
+	enemy9.style.width= 90
+	enemyXval9 = 90
+	enemySpeed9 = 0.1
+	SweeperMove3()
+}
+var enemyX9= Math.round(Math.random()*1150+50)
+var enemyY9= -250
+enemy9.style.left= enemyX9
+enemy9.style.top= enemyY9
+enemy9.style.position="relative"
+var enemyYval9 = 0
+
+var enemy8=document.createElement("img")
+document.body.appendChild(enemy8);
+var choose = Math.random()*100
+var enemyXval8
+var enemySpeed8
+if(choose<=40){
+	enemy8.src="./img/Illenemy1.png"
+	enemy8.style.width= 100
+	enemyXval8 = 100
+	enemySpeed8 = 0.5
+}else if(choose>40 && choose<=75){
+	enemy8.src="./img/Illenemy.png"
+	enemy8.style.width= 100
+	enemyXval8 = 100
+	enemySpeed8 = 0.3
+}else if(choose>75 && choose<=93){
+	enemy8.src="./img/Illenemy2.png"
+	enemy8.style.width= 150
+	enemyXval8 = 150
+	enemySpeed8 = 0.1
+}else if(choose>0 && choose<=100){
+	enemy8.src="./img/Illenemy4.png"
+	enemy8.style.width= 90
+	enemyXval8 = 90
+	enemySpeed8 = 0.1
+	SweeperMove2()
+}
+var enemyX8= Math.round(Math.random()*1150+50-enemyXval9)
+var enemyY8= -250
+enemy8.style.left= enemyX8
+enemy8.style.top= enemyY8
+enemy8.style.position="relative"
+var enemyYval8 = 0
+
+var enemy7=document.createElement("img")
+document.body.appendChild(enemy7);
+enemy7.src="./img/enemy4.png"
+enemy7.style.width= 90
+var enemyX7= Math.round(Math.random()*1150+50-enemyXval8-enemyXval9)
+var enemyY7= -250
+enemy7.style.left= enemyX7
+enemy7.style.top= enemyY7
+enemy7.style.position="relative"
+var enemyYval7 = 0
+var enemyXval7 = 90
+
+var enemy6=document.createElement("img")
+document.body.appendChild(enemy6);
+enemy6.src="./img/enemy4.png"
+enemy6.style.width= 90
+var enemyX6= Math.round(Math.random()*1150+50-enemyXval7-enemyXval8-enemyXval9)
+var enemyY6= -250
+enemy6.style.left= enemyX6
+enemy6.style.top= enemyY6
+enemy6.style.position="relative"
+var enemyYval6 = 0
+var enemyXval6 = 90
+
+var enemy5=document.createElement("img")
+document.body.appendChild(enemy5);
+enemy5.src="./img/enemy2.png"
+enemy5.style.width= 150
+var enemyX5= Math.round(Math.random()*1150+50-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+var enemyY5= -250-enemyYval6
+enemy5.style.left= enemyX5
+enemy5.style.top= enemyY5
+enemy5.style.position="relative"
+var enemyYval5 = 0
+var enemyXval5 = 150
+
+var enemy4=document.createElement("img")
+document.body.appendChild(enemy4);
+enemy4.src="./img/enemy2.png"
+enemy4.style.width= 150
+var enemyX4= Math.round(Math.random()*1150+50-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+var enemyY4= -250-enemyYval5-enemyYval6
+enemy4.style.left= enemyX4
+enemy4.style.top= enemyY4
+enemy4.style.position="relative"
+var enemyYval4 = 50
+var enemyXval4 = 150
+
+var enemy3=document.createElement("img")
+document.body.appendChild(enemy3);
+enemy3.src="./img/enemy1.png"
+enemy3.style.width= 100
+var enemyX3= Math.round(Math.random()*1150+50-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+var enemyY3= -210-enemyYval4-enemyYval5-enemyYval6
+enemy3.style.left= enemyX3
+enemy3.style.top= enemyY3
+enemy3.style.position="relative"
+var enemyYval3 = 0
+var enemyXval3 = 100
+
+var enemy2=document.createElement("img")
+document.body.appendChild(enemy2);
+enemy2.src="./img/enemy1.png"
+enemy2.style.width= 100
+var enemyX2= Math.round(Math.random()*1150+50-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+var enemyY2= -210-enemyYval4-enemyYval5-enemyYval6
+enemy2.style.left= enemyX2
+enemy2.style.top= enemyY2
+enemy2.style.position="relative"
+var enemyYval2 = 0
+var enemyXval2 = 100
+
+var enemy1=document.createElement("img")
+document.body.appendChild(enemy1);
+enemy1.src="./img/enemy.png"
+enemy1.style.width= 100
+var enemyX1= Math.round(Math.random()*1150+50-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+var enemyY1= -210-enemyYval4-enemyYval5-enemyYval6
+enemy1.style.left= enemyX1
+enemy1.style.top= enemyY1
+enemy1.style.position="relative"
+var enemyYval1 = 0
+var enemyXval1 = 100
+
+var enemy=document.createElement("img")
+document.body.appendChild(enemy);
+enemy.src="./img/enemy.png"
+enemy.style.width= 100
+var enemyX= Math.round(Math.random()*1150+50-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+var enemyY= -210-enemyYval4-enemyYval5-enemyYval6
+enemy.style.left= enemyX
+enemy.style.top= enemyY
+enemy.style.position="relative"
+var enemyYval = 0
+var enemyXval = 100
+
+var playerShip=document.createElement("img")
+document.body.appendChild(playerShip);
+playerShip.src="./img/playerShip.png"
+playerShip.style.width= 120
+var playerX= 615 - enemyXval - enemyXval1 - enemyXval2 - enemyXval3 - enemyXval4 - enemyXval5 - enemyXval6 - enemyXval7 - enemyXval8 - enemyXval9
+//alert(playerX)
+var playerY= 550 - enemyYval - enemyYval1 - enemyYval2 - enemyYval3 - enemyYval4 - enemyYval5 - enemyYval6 - enemyYval7 - enemyYval8 - enemyYval9
+playerShip.style.left= playerX
+playerShip.style.top= playerY
+playerShip.style.position="relative"
+
+var laser=document.createElement("img")
+document.body.appendChild(laser);
+var laserY=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6-enemyYval7-enemyYval8-enemyYval9
+laser.src="./img/laser.png"
+laser.style.width= 25
+var laserX=playerX-77//-enemyXval
+laser.style.left= laserX
+laser.style.top= laserY
+laser.style.position="relative"
+
+var laser1=document.createElement("img")
+document.body.appendChild(laser1);
+var laserY1=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6-enemyYval7-enemyYval8-enemyYval9
+laser1.src="./img/laser.png"
+laser1.style.width= 25
+var laserX1= playerX-102.5//-enemyXval
+laser1.style.left= laserX1
+laser1.style.top= laserY1
+laser1.style.position="relative"
+
+var boss=document.createElement("img")
+document.body.appendChild(boss);
+boss.src="./img/enemy3.png"
+boss.style.width= 400
+var bossX= 475//- 120 - 50//475
+var bossY= -700//-215//-700
+boss.style.left= bossX
+boss.style.top= bossY
+boss.style.position="relative"
+var bossSpeed=0.5
+
+var flare=document.createElement("img")
+document.body.appendChild(flare);
+flare.src="./img/flare.gif"
+flare.style.width= 200
+flare.style.left= 175
+flare.style.top= 100//-150
+flare.style.position="relative"
+
+var enemyLaser=document.createElement("img")
+document.body.appendChild(enemyLaser);
+enemyLaser.src="./img/enemyLaser.gif"
+enemyLaser.style.width= 120
+var enemyLaserX= 15
+var enemyLaserY= 300//5
+enemyLaser.style.left= enemyLaserX
+enemyLaser.style.top= enemyLaserY
+enemyLaser.style.position="relative"
+
+var flare1=document.createElement("img")
+document.body.appendChild(flare1);
+flare1.src="./img/flare.gif"
+flare1.style.width= 100
+flare1.style.left= 0
+flare1.style.top= -1000//-420//-1000
+flare1.style.position="relative"
+
+var enemyLaser1=document.createElement("img")
+document.body.appendChild(enemyLaser1);
+enemyLaser1.src="./img/enemyLaser1.gif"
+enemyLaser1.style.width= 70
+var enemyLaserX1= -80
+var enemyLaserY1= -1000//-70
+enemyLaser1.style.left= enemyLaserX1
+enemyLaser1.style.top= enemyLaserY1
+enemyLaser1.style.position="relative"
+
+var enemyLaser2=document.createElement("img")
+document.body.appendChild(enemyLaser2);
+enemyLaser2.src="./img/enemyLaser1.gif"
+enemyLaser2.style.width= 70
+enemyLaser2.style.transform='scaleY(-1)'
+var enemyLaserX2= -150
+var enemyLaserY2= -1000//344
+enemyLaser2.style.left= enemyLaserX2
+enemyLaser2.style.top= enemyLaserY2
+enemyLaser2.style.position="relative"
+
+var flare2=document.createElement("img")
+document.body.appendChild(flare2);
+flare2.src="./img/flare.gif"
+flare2.style.width= 100
+flare2.style.left= -430
+flare2.style.top= -1000//-420//-1000
+flare2.style.position="relative"
+
+var enemyLaser3=document.createElement("img")
+document.body.appendChild(enemyLaser3);
+enemyLaser3.src="./img/enemyLaser1.gif"
+enemyLaser3.style.width= 70
+var enemyLaserX3= -520
+var enemyLaserY3= -1000//-70
+enemyLaser3.style.left= enemyLaserX3
+enemyLaser3.style.top= enemyLaserY3
+enemyLaser3.style.position="relative"
+
+var enemyLaser4=document.createElement("img")
+document.body.appendChild(enemyLaser4);
+enemyLaser4.src="./img/enemyLaser1.gif"
+enemyLaser4.style.width= 70
+enemyLaser4.style.transform='scaleY(-1)'
+var enemyLaserX4= -590
+var enemyLaserY4= -1000//344
+enemyLaser4.style.left= enemyLaserX4
+enemyLaser4.style.top= enemyLaserY4
+enemyLaser4.style.position="relative"
+
+var bossExplosion=document.createElement("img")
+document.body.appendChild(bossExplosion);
+bossExplosion.src="./img/explosion.gif"
+bossExplosion.style.width= 110
+bossExplosion.style.left= -700
+bossExplosion.style.top= -1000//-460
+bossExplosion.style.position="relative"
+
+var bossExplosion1=document.createElement("img")
+document.body.appendChild(bossExplosion1);
+bossExplosion1.src="./img/explosion.gif"
+bossExplosion1.style.width= 110
+bossExplosion1.style.left= 725
+bossExplosion1.style.top= -2000//-562
+bossExplosion1.style.position="relative"
+
+var earth=document.createElement("img")
+document.body.appendChild(earth);
+earth.src="./img/earth.png"
+earth.style.width= 1000
+var earthX= 75
+var earthY= -1000000
+var earthSpeed=1
+earth.style.left= earthX
+earth.style.top= earthY
+earth.style.position="relative"
+
+document.getElementById("score").innerHTML="<h1>5<br>-"
+setTimeout(()=>{
+	document.getElementById("score").innerHTML="<h1>4<br>-"
+	setTimeout(()=>{
+		document.getElementById("score").innerHTML="<h1>3<br>-"
+		setTimeout(()=>{
+			document.getElementById("score").innerHTML="<h1>2<br>-"
+			setTimeout(()=>{
+				document.getElementById("score").innerHTML="<h1>1<br>-"
+				setTimeout(()=>{
+					document.getElementById("score").innerHTML="<h1>GO!<br>-"
+				},1000)
+			},1000)
+		},1000)
+	},1000)
+},1000)
+var noLaser=true
+var laserActivated=false
+var laser1Activated=false
+var enemySpeed = 0.3
+var enemySpeed1 = 0.3
+var enemySpeed2 = 0.5
+var enemySpeed3 = 0.5
+var enemySpeed4 = 0.1
+var enemySpeed5 = 0.1
+var enemySpeed6Y = 0
+var enemySpeed6X = 0
+var enemySpeed7Y = 0
+var enemySpeed7X = 0
+var enemySpeed8Y = 0.3
+var enemySpeed8X = 0
+var enemySpeed9Y = 0.3
+var enemySpeed9X = 0
+var enemyMove
+var enemyDead = false
+var enemyDead1=false
+var enemyDead2=false
+var enemyDead3=false
+var enemyDead4=1
+var enemyDead5=1
+var enemyDead6=false
+var enemyDead7=false
+var enemyRotate = 0
+var enemyRotate1 = 0
+var enemyRotate2 = 0
+var enemyRotate3 = 0
+var rotateSpeed = 0.2
+var rotateSpeed1 = 0.2
+var rotateSpeed2 = 0.2
+var rotateSpeed3 = 0.2
+var sweeper
+var sweeper1
+var sweeper2
+var sweeper3
+var score=0
+var temp = 0
+var temp1 = 0
+var healthNum=0
+var health=""
+var Opphealth=""
+var moveAllowed=false
+var scoreSpeed=0
+var scoreBoard
+gameStart()
+
+function gameStart(){
+	var tempo=0
+	var playerSpeed=0
+	var laserSpeed=0
+	earthY=0
+	earthSpeed=0.5
+	bossSpeed=1
+	var animation = setInterval(()=>{
+		bossY+=bossSpeed
+		boss.style.top=bossY
+		earthY-=earthSpeed
+		earth.style.top=earthY
+		playerY-=playerSpeed
+		playerShip.style.top=playerY
+		laserY-=laserSpeed
+		laser.style.top=laserY
+		if(earthY<=-175){
+			earthSpeed=0
+		}if(bossY>=-215){
+			flare.style.top=-150
+			flare.src="./img/flare.gif"
+			bossY=-216
+			bossSpeed=0
+			playerSpeed=0.35
+		}if(playerY<=320){
+			playerY=321
+			playerSpeed=0
+			laserY=300
+			laserSpeed=3
+		}if(laserY<bossY+420 && tempo==0){
+			boss.src="./img/enemy3.gif"
+			flare.style.top=-1000
+			laserSpeed=0
+			laserY=-1000
+			tempo=1
+			setTimeout(()=>{
+				earthSpeed=-0.5
+				playerSpeed=-0.25
+				bossSpeed=-1.6
+				gameStart1(playerSpeed,laserSpeed,animation)
+			},500)
+		}
+	},1)
+}
+function gameStart1(playerSpeed,laserSpeed,animation){
+	var animation1=setInterval(()=>{
+		if(earthY>=0){
+			earthSpeed=0
+		}if(playerY>=400){
+			playerSpeed=0
+			enemyMovement()
+			SweeperMove()
+			SweeperMove1()
+			showScore()
+			clearInterval(animation)
+			moveAllowed=true
+			scoreSpeed=1
+			bossSpeed=0.5
+			clearInterval(animation1)
+		}if(bossY<=-700){
+			bossSpeed=0
+		}
+	},1)
+}
+document.onkeydown = onKeyDownListener;
+var keyRight = false;
+var keyLeft = false;
+var keyUp = false;
+function onKeyDownListener(evt) {
+   if(evt.key.toUpperCase() == 'ARROWRIGHT') {
+		keyRight = true;
+   }if(evt.key.toUpperCase() == 'ARROWLEFT') {
+		keyLeft = true;
+   }if(evt.key.toUpperCase() == 'ARROWUP') {
+		keyUp = true;
+   }
+}
+
+document.onkeyup = function(evt){
+ if(evt.key.toUpperCase() == 'ARROWRIGHT') {
+		keyRight = false;
+   }if(evt.key.toUpperCase() == 'ARROWLEFT') {
+		keyLeft = false;
+   }if(evt.key.toUpperCase() == 'ARROWUP') {
+		keyUp = false;
+   }
+}
+setInterval(function(){
+		if(keyRight==true && moveAllowed==true){
+			playerX = playerX+2.25
+			playerShip.style.left= playerX
+			if(playerX-895+enemyXval+enemyXval1+enemyXval2+enemyXval3+enemyXval4+enemyXval5+enemyXval6+enemyXval7+enemyXval8+enemyXval9>canvas.width){
+				playerX=canvas.width+895-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9
+				playerShip.style.left= playerX
+			}
+		}if(keyLeft==true && moveAllowed==true){
+			playerX = playerX-2.25
+			playerShip.style.left= playerX
+			if(playerX+enemyXval+enemyXval1+enemyXval2+enemyXval3+enemyXval4+enemyXval5+enemyXval6+enemyXval7+enemyXval8+enemyXval9<30){
+				playerX=30-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9
+				playerShip.style.left= playerX
+			}
+		}if(keyUp==true && noLaser==true && moveAllowed==true){
+			if(laserActivated==false){
+				laserY=400-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6-enemyYval7-enemyYval8-enemyYval9
+				laserX=playerX-72.5//-enemyXval
+				laser.style.left= laserX
+				noLaser=false
+				laserActivated=true
+				setTimeout(()=>{
+					noLaser=true
+				},500)
+			}else if(laserActivated==true && laser1Activated==false){
+				laserY1=400-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6-enemyYval7-enemyYval8-enemyYval9
+				laserX1=playerX-97.5//-enemyXval
+				laser1.style.left= laserX1
+				noLaser=false
+				laser1Activated=true
+				setTimeout(()=>{
+					noLaser=true
+				},500)
+			}
+		}
+		
+		if(laserActivated==true){
+			laserY-=3
+			laser.style.top= laserY
+			if(laserY<=(-195-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6-enemyYval7-enemyXval8-enemyXval9)){
+				laserActivated=false
+				laserY=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6-enemyYval7-enemyXval8-enemyXval9
+			}
+		}
+		if(laser1Activated==true){
+			laserY1-=3
+			laser1.style.top= laserY1
+			if(laserY1<=(-195-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6-enemyYval7-enemyXval8-enemyXval9)){
+				laser1Activated=false
+				laserY1=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6-enemyXval7-enemyXval8-enemyXval9
+			}
+		}
+},1)
+
+function enemyMovement(){
+	enemyMove = setInterval(()=>{
+		enemyY = enemyY+enemySpeed
+		enemy.style.top= enemyY
+		if(((laserX < enemyX-150 && laserX > enemyX-220) && laserY<enemyY+50)&& enemyDead == false){
+			enemySpeed=0
+			enemy.src = "./img/explosion.gif"
+			laserActivated=false
+			laserY=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+			laser.style.top = laserY
+			enemyDead = true
+			setTimeout(()=>{
+				enemyX= Math.round(Math.random()*1150+50-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+				enemyY= -210-enemyYval4-enemyYval5
+				enemy.style.left= enemyX
+				enemy.style.top= enemyY
+				enemy.src="./img/enemy.png"
+				if(score<500){
+					enemySpeed=0.3
+				}else{
+					Endgame()
+				}
+				enemyDead = false
+			},425)
+		}if(((laserX1 < enemyX-175 && laserX1 > enemyX-245) && laserY1<enemyY+50)&& enemyDead == false){
+			enemySpeed=0
+			enemy.src = "./img/explosion.gif"
+			laser1Activated=false
+			laserY1=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+			laser1.style.top = laserY1
+			laser.style.left = laserX
+			enemyDead = true
+			setTimeout(()=>{
+				enemyX= Math.round(Math.random()*1150+50-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+				enemyY= -210-enemyYval4-enemyYval5
+				enemy.style.left= enemyX
+				enemy.style.top= enemyY
+				enemy.src="./img/enemy.png"
+				if(score<500){
+					enemySpeed=0.3
+				}
+				enemyDead = false
+			},425)
+		}
+		if(score>50){
+			enemyY1 = enemyY1+enemySpeed1
+			enemy1.style.top= enemyY1
+			if(((laserX < enemyX1-150-enemyXval && laserX > enemyX1-220-enemyXval) && laserY<enemyY1+50-enemyYval)&& enemyDead1 == false){
+				enemySpeed1=0
+				enemy1.src = "./img/explosion.gif"
+				laserActivated=false
+				laserY=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+				laser.style.top = laserY
+				enemyDead1 = true
+				setTimeout(()=>{
+					enemyX1= Math.round(Math.random()*1150+50-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+					enemyY1= -210-enemyYval4-enemyYval5
+					enemy1.style.left= enemyX1
+					enemy1.style.top= enemyY1
+					enemy1.src="./img/enemy.png"
+					if(score<500){
+						enemySpeed1=0.3
+					}else{
+						Endgame()
+					}
+					enemyDead1 = false
+				},425)
+			}if(((laserX1 < enemyX1-175-enemyXval && laserX1 > enemyX1-245-enemyXval) && laserY1<enemyY1+50-enemyYval)&& enemyDead1 == false){
+				enemySpeed1=0
+				enemy1.src = "./img/explosion.gif"
+				laser1Activated=false
+				laserY1=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+				laser1.style.top = laserY1
+				laser.style.left = laserX
+				enemyDead1 = true
+				setTimeout(()=>{
+					enemyX1= Math.round(Math.random()*1150+50-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+					enemyY1= -210-enemyYval4-enemyYval5
+					enemy1.style.left= enemyX1
+					enemy1.style.top= enemyY1
+					enemy1.src="./img/enemy.png"
+					if(score<500){
+						enemySpeed1=0.3
+					}else{
+						Endgame()
+					}
+					enemyDead1 = false
+				},425)
+			}
+		}
+		if(score>100){
+			enemyY2 = enemyY2+enemySpeed2
+			enemy2.style.top= enemyY2
+			if(((laserX < enemyX2-130-enemyXval-enemyXval1 && laserX > enemyX2-240-enemyXval-enemyXval1) && laserY<enemyY2+50-enemyYval-enemyYval1)&& enemyDead2 == false){
+				enemySpeed2=0
+				enemy2.src = "./img/explosion.gif"
+				laserActivated=false
+				laserY=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+				laser.style.top = laserY
+				enemyDead2 = true
+				setTimeout(()=>{
+					enemyX2= Math.round(Math.random()*1150+50-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+					enemyY2= -360-enemyYval4-enemyYval5
+					enemy2.style.left= enemyX2
+					enemy2.style.top= enemyY2
+					enemy2.src="./img/enemy1.png"
+					if(score<500){
+						enemySpeed2=0.5
+					}else{
+						Endgame()
+					}
+					enemyDead2 = false
+				},425)
+			}if(((laserX1 < enemyX2-155-enemyXval-enemyXval1 && laserX1 > enemyX2-265-enemyXval-enemyXval1) && laserY1<enemyY2+50-enemyYval-enemyYval1)&& enemyDead2 == false){
+				enemySpeed2=0
+				enemy2.src = "./img/explosion.gif"
+				laser1Activated=false
+				laserY1=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+				laser1.style.top = laserY1
+				laser.style.left = laserX
+				enemyDead2 = true
+				setTimeout(()=>{
+					enemyX2= Math.round(Math.random()*1150+50-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+					enemyY2= -360-enemyYval4-enemyYval5
+					enemy2.style.left= enemyX2
+					enemy2.style.top= enemyY2
+					enemy2.src="./img/enemy1.png"
+					if(score<500){
+						enemySpeed2=0.5
+					}else{
+						Endgame()
+					}
+					enemyDead2 = false
+				},425)
+			}
+		}
+		if(score>150){
+			enemyY3 = enemyY3+enemySpeed3
+			enemy3.style.top= enemyY3
+			if(((laserX < enemyX3-130-enemyXval-enemyXval1-enemyXval2 && laserX > enemyX3-240-enemyXval-enemyXval1-enemyXval2) && laserY<enemyY3+50-enemyYval-enemyYval1-enemyYval2)&& enemyDead3 == false){
+				enemySpeed3=0
+				enemy3.src = "./img/explosion.gif"
+				laserActivated=false
+				laserY=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+				laser.style.top = laserY
+				enemyDead3 = true
+				setTimeout(()=>{
+					enemyX3= Math.round(Math.random()*1150+50-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+					enemyY3= -360-enemyYval4-enemyYval5
+					enemy3.style.left= enemyX3
+					enemy3.style.top= enemyY3
+					enemy3.src="./img/enemy1.png"
+					if(score<500){
+						enemySpeed3=0.5
+					}else{
+						Endgame()
+					}
+					enemyDead3 = false
+				},425)
+			}if(((laserX1 < enemyX3-155-enemyXval-enemyXval1-enemyXval2 && laserX1 > enemyX3-265-enemyXval-enemyXval1-enemyXval2) && laserY1<enemyY3+50-enemyYval-enemyYval1-enemyYval2)&& enemyDead3 == false){
+				enemySpeed3=0
+				enemy3.src = "./img/explosion.gif"
+				laser1Activated=false
+				laserY1=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+				laser1.style.top = laserY1
+				laser.style.left = laserX
+				enemyDead3 = true
+				setTimeout(()=>{
+					enemyX3= Math.round(Math.random()*1150+50-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+					enemyY3= -360-enemyYval4-enemyYval5
+					enemy3.style.left= enemyX3
+					enemy3.style.top= enemyY3
+					enemy3.src="./img/enemy1.png"
+					if(score<500){
+						enemySpeed3=0.5
+					}else{
+						Endgame()
+					}
+					enemyDead3 = false
+				},425)
+			}
+		}if(score>200){
+			enemyY4 = enemyY4+enemySpeed4
+			enemy4.style.top= enemyY4
+			if(((laserX < enemyX4-110-enemyXval-enemyXval1-enemyXval2-enemyXval3 && laserX > enemyX4-260-enemyXval-enemyXval1-enemyXval2-enemyXval3) && laserY<enemyY4+50-enemyYval-enemyYval1-enemyYval2-enemyYval3)){
+				if(enemyDead4 == 0){
+					enemySpeed4=0
+					enemy4.src = "./img/explosion.gif"
+					laserActivated=false
+					laserY=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+					laser.style.top = laserY
+					enemyDead4 = 2
+					playerY += 0
+					playerShip.style.top = playerY
+					enemyY += 0
+					enemyY1 += 0
+					enemyY2 += 0
+					enemyY3 += 0
+					setTimeout(()=>{
+						enemyX4= Math.round(Math.random()*1150+50-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+						enemyY4= -270-enemyYval5
+						enemy4.style.left= enemyX4
+						enemy4.style.top= enemyY4
+						enemy4.src="./img/enemy2.png"
+						if(score<500){
+							enemySpeed4=0.1
+						}else{
+							Endgame()
+						}
+						enemyDead4 = 1
+						playerY -= 0
+						enemyY -= 0
+						enemyY1 -= 0
+						enemyY2 -= 0
+						enemyY3 -= 0
+						playerShip.style.top = playerY
+					},425)
+				}else if(enemyDead4 == 1){
+					laserActivated=false
+					laserY=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+					laser.style.top = laserY
+					enemyDead4 = 0
+					enemy4.src = "./img/enemy2.gif"
+				}
+			}if(((laserX1 < enemyX4-135-enemyXval-enemyXval1-enemyXval2-enemyXval3 && laserX1 > enemyX4-285-enemyXval-enemyXval1-enemyXval2-enemyXval3) && laserY1<enemyY4+50-enemyYval-enemyYval1-enemyYval2-enemyYval3)){
+				if(enemyDead4 == 0){
+					enemySpeed4=0
+					enemy4.src = "./img/explosion.gif"
+					laser1Activated=false
+					laserY1=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+					laser1.style.top = laserY1
+					laser.style.left = laserX
+					enemyDead4 = 2
+					playerY += 0
+					playerShip.style.top = playerY
+					enemyY += 0
+					enemyY1 += 0
+					enemyY2 += 0
+					enemyY3 += 0
+					setTimeout(()=>{
+						enemyX4= Math.round(Math.random()*1150+50-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+						enemyY4= -270-enemyYval5
+						enemy4.style.left= enemyX4
+						enemy4.style.top= enemyY4
+						enemy4.src="./img/enemy2.png"
+						if(score<500){
+							enemySpeed4=0.1
+						}else{
+							Endgame()
+						}
+						enemyDead4 = 1
+						playerY -= 0
+						enemyY -= 0
+						enemyY1 -= 0
+						enemyY2 -= 0
+						enemyY3 -= 0
+						playerShip.style.top = playerY
+					},425)
+				}else if(enemyDead4 == 1){
+					laser1Activated=false
+					laserY1=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+					laser1.style.top = laserY1
+					enemyDead4 = 0
+					enemy4.src = "./img/enemy2.gif"
+				}
+			}
+		}if(score>250){
+			enemyY5 = enemyY5+enemySpeed5
+			enemy5.style.top= enemyY5
+			if(((laserX < enemyX5-110-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4 && laserX > enemyX5-260-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4) && laserY<enemyY5+50-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4)){
+				if(enemyDead5 == 0){
+					enemySpeed5=0
+					enemy5.src = "./img/explosion.gif"
+					laserActivated=false
+					laserY=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+					laser.style.top = laserY
+					enemyDead5 = 2
+					playerY += 0
+					playerShip.style.top = playerY
+					enemyY += 0
+					enemyY1 += 0
+					enemyY2 += 0
+					enemyY3 += 0
+					enemyY4 += 0
+					setTimeout(()=>{
+						enemyX5= Math.round(Math.random()*1150+50-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+						enemyY5= -270
+						enemy5.style.left= enemyX5
+						enemy5.style.top= enemyY5
+						enemy5.src="./img/enemy2.png"
+						if(score<500){
+							enemySpeed5=0.1
+						}else{
+							Endgame()
+						}
+						enemyDead5 = 1
+						playerY -= 0
+						enemyY -= 0
+						enemyY1 -= 0
+						enemyY2 -= 0
+						enemyY3 -= 0
+						enemyY4 -= 0
+						playerShip.style.top = playerY
+					},425)
+				}else if(enemyDead5 == 1){
+					laserActivated=false
+					laserY=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+					laser.style.top = laserY
+					enemyDead5 = 0
+					enemy5.src = "./img/enemy2.gif"
+				}
+			}if(((laserX1 < enemyX5-135-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4 && laserX1 > enemyX5-285-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4) && laserY1<enemyY5+50-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4)){
+				if(enemyDead5 == 0){
+					enemySpeed5=0
+					enemy5.src = "./img/explosion.gif"
+					laser1Activated=false
+					laserY1=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+					laser1.style.top = laserY1
+					laser.style.left = laserX
+					enemyDead5 = 2
+					playerY += 0
+					playerShip.style.top = playerY
+					enemyY += 0
+					enemyY1 += 0
+					enemyY2 += 0
+					enemyY3 += 0
+					enemyY4 += 0
+					setTimeout(()=>{
+						enemyX5= Math.round(Math.random()*1150+50-enemyXval6-enemyXval7-enemyXval8-enemyXval9)
+						enemyY5= -270
+						enemy5.style.left= enemyX5
+						enemy5.style.top= enemyY5
+						enemy5.src="./img/enemy2.png"
+						if(score<500){
+							enemySpeed5=0.1
+						}else{
+							Endgame()
+						}
+						enemyDead5 = 1
+						playerY -= 0
+						enemyY -= 0
+						enemyY1 -= 0
+						enemyY2 -= 0
+						enemyY3 -= 0
+						enemyY4 -= 0
+						playerShip.style.top = playerY
+					},425)
+				}else if(enemyDead5 == 1){
+					laser1Activated=false
+					laserY1=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+					laser1.style.top = laserY1
+					enemyDead5 = 0
+					enemy5.src = "./img/enemy2.gif"
+				}
+			}
+		}if(score>300){
+			enemyRotate+=rotateSpeed
+			enemy6.style.transform = 'rotate('+enemyRotate+'deg)'
+			if(score==301){
+				enemySpeed6X = 0
+				enemySpeed6Y = 0.3
+			}
+			if(((laserX < enemyX6-120-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5 && laserX > enemyX6-240-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5) && (laserY<enemyY6+100-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5 && laserY<enemyY6+175-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5)&& enemyDead6 == false)){
+				enemySpeed6X=0
+				enemySpeed6Y=0
+				clearInterval(sweeper)
+				enemy6.style.transform = 'rotate(0deg)'
+				enemy6.src = "./img/explosion.gif"
+				rotateSpeed=0
+				enemyRotate = 0
+				laserActivated=false
+				laserY=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+				laser.style.top = laserY
+				enemyDead6 = true
+				setTimeout(()=>{
+					enemyX6= Math.round(Math.random()*1150+50-enemyXval7-enemyXval8-enemyXval9)
+					enemyY6= -270
+					enemy6.style.left= enemyX6
+					enemy6.style.top= enemyY6
+					if(score<500){
+						enemySpeed6X = 0
+						enemySpeed6Y = 0.3
+						SweeperMove()
+						rotateSpeed=0.2
+					}else{
+						Endgame()
+					}
+					enemy6.src = "./img/enemy4.png"
+					enemyDead6 = false
+				},425)
+			}if((laserX1 < enemyX6-135-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5 && laserX1 > enemyX6-285-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5) && (laserY1<enemyY6+100-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5 && laserY1<enemyY6+175-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5) && enemyDead6 == false){
+				enemySpeed6X=0
+				enemySpeed6Y=0
+				clearInterval(sweeper)
+				enemy6.style.transform = 'rotate(0deg)'
+				enemy6.src = "./img/explosion.gif"
+				rotateSpeed=0
+				enemyRotate = 0
+				laser1Activated=false
+				laserY1=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+				laser1.style.top = laserY1
+				laser.style.left = laserX
+				enemyDead6 = true
+				setTimeout(()=>{
+					enemyX6= Math.round(Math.random()*1150+50-enemyXval7-enemyXval8-enemyXval9)
+					enemyY6= -270
+					enemy6.style.left= enemyX6
+					enemy6.style.top= enemyY6
+					if(score<500){
+						enemySpeed6X = 0
+						enemySpeed6Y = 0.3
+						SweeperMove()
+						rotateSpeed=0.2
+					}else{
+						Endgame()
+					}
+					enemy6.src = "./img/enemy4.png"
+					enemyDead6 = false
+				},425)
+			}
+		}if(score>350){
+			enemyRotate1+=rotateSpeed1
+			enemy7.style.transform = 'rotate('+enemyRotate1+'deg)'
+			if(score==351){
+				enemySpeed7X = 0
+				enemySpeed7Y = 0.3
+			}
+			if(((laserX < enemyX7-120-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6 && laserX > enemyX7-240-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6) && (laserY<enemyY7+100-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5 && laserY<enemyY7+175-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5)&& enemyDead6 == false)){
+				enemySpeed7X=0
+				enemySpeed7Y=0
+				clearInterval(sweeper1)
+				enemy7.style.transform = 'rotate(0deg)'
+				enemy7.src = "./img/explosion.gif"
+				rotateSpeed1=0
+				enemyRotate1 = 0
+				laserActivated=false
+				laserY=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+				laser.style.top = laserY
+				enemyDead7 = true
+				setTimeout(()=>{
+					enemyX7= Math.round(Math.random()*1150+50-enemyXval8-enemyXval9)
+					enemyY7= -270
+					enemy7.style.left= enemyX7
+					enemy7.style.top= enemyY7
+					if(score<500){
+						enemySpeed7X = 0
+						enemySpeed7Y = 0.3
+						SweeperMove1()
+						rotateSpeed1=0.2
+					}else{
+						Endgame()
+					}
+					enemy7.src = "./img/enemy4.png"
+					enemyDead7 = false
+				},425)
+			}if((laserX1 < enemyX7-135-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6 && laserX1 > enemyX7-285-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6) && (laserY1<enemyY7+100-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5 && laserY1<enemyY7+175-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5) && enemyDead7 == false){
+				enemySpeed7X=0
+				enemySpeed7Y=0
+				clearInterval(sweeper1)
+				enemy7.style.transform = 'rotate(0deg)'
+				enemy7.src = "./img/explosion.gif"
+				rotateSpeed1=0
+				enemyRotate1 = 0
+				laser1Activated=false
+				laserY1=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+				laser1.style.top = laserY1
+				laser.style.left = laserX
+				enemyDead7 = true
+				setTimeout(()=>{
+					enemyX7= Math.round(Math.random()*1150+50-enemyXval8-enemyXval9)
+					enemyY7= -270
+					enemy7.style.left= enemyX7
+					enemy7.style.top= enemyY7
+					if(score<500){
+						enemySpeed7X = 0
+						enemySpeed7Y = 0.3
+						SweeperMove1()
+						rotateSpeed1=0.2
+					}else{
+						Endgame()
+					}
+					enemy7.src = "./img/enemy4.png"
+					enemyDead7 = false
+				},425)
+			}	
+		}if(score>400){
+			if(choose<93){
+				enemyY8 = enemyY8+enemySpeed8
+				enemy8.style.top= enemyY8
+			}
+			if(score==500 && temp==0){
+				temp=1
+				makeTransparent()
+			}
+			if(enemyY8>540){
+				clearInterval(sweeper2)
+				enemy8.style.transform = 'rotate(0deg)'
+				if(choose>75 && choose<=93){
+					enemyX7+=50
+					enemy7.style.left = enemyX7
+					enemyX6+=50
+					enemy6.style.left = enemyX6
+					enemyX5+=50
+					enemy5.style.left = enemyX5
+					enemyX4+=50
+					enemy4.style.left = enemyX4
+					enemyX3+=50
+					enemy3.style.left = enemyX3
+					enemyX2+=50
+					enemy2.style.left = enemyX2
+					enemyX1+=50
+					enemy1.style.left = enemyX1
+					enemyX+=50
+					enemy.style.left = enemyX
+					playerX+=50
+					playerShip.style.left = playerX
+					laserX+=50
+					laser.style.left = laserX
+					laserX1+=50
+					laser1.style.left = laserX1
+				}else if(choose>93 && choose<=100){
+					enemyX7-=10
+					enemy7.style.left = enemyX7
+					enemyX6-=10
+					enemy6.style.left = enemyX6
+					enemyX5-=10
+					enemy5.style.left = enemyX5
+					enemyX4-=10
+					enemy4.style.left = enemyX4
+					enemyX3-=10
+					enemy3.style.left = enemyX3
+					enemyX2-=10
+					enemy2.style.left = enemyX2
+					enemyX1-=10
+					enemy1.style.left = enemyX1
+					enemyX-=10
+					enemy.style.left = enemyX
+					playerX-=10
+					playerShip.style.left = playerX
+					laserX-=10
+					laser.style.left = laserX
+					laserX1-=10
+					laser1.style.left = laserX1
+				}
+				choose = Math.random()*100
+				if(choose<=40){
+					enemy8.src="./img/Illenemy1.png"
+					enemy8.style.width= 100
+					enemyXval8 = 100
+					enemySpeed8 = 0.5
+				}else if(choose>40 && choose<=75){
+					enemy8.src="./img/Illenemy.png"
+					enemy8.style.width= 100
+					enemyXval8 = 100
+					enemySpeed8 = 0.3
+				}else if(choose>75 && choose<=93){
+					enemy8.src="./img/Illenemy2.png"
+					enemy8.style.width= 150
+					enemyXval8 = 150
+					enemySpeed8 = 0.1
+					enemyX7-=50
+					enemy7.style.left = enemyX7
+					enemyX6-=50
+					enemy6.style.left = enemyX6
+					enemyX5-=50
+					enemy5.style.left = enemyX5
+					enemyX4-=50
+					enemy4.style.left = enemyX4
+					enemyX3-=50
+					enemy3.style.left = enemyX3
+					enemyX2-=50
+					enemy2.style.left = enemyX2
+					enemyX1-=50
+					enemy1.style.left = enemyX1
+					enemyX-=50
+					enemy.style.left = enemyX
+					playerX-=50
+					playerShip.style.left = playerX
+					laserX-=50
+					laser.style.left = laserX
+					laserX1-=50
+					laser1.style.left = laserX1
+				}else if(choose>93 && choose<=100){
+					enemy8.src="./img/Illenemy4.png"
+					enemy8.style.width= 90
+					enemyXval8 = 90
+					enemySpeed8 = 0.1
+					enemyX7+=10
+					enemy7.style.left = enemyX7
+					enemyX6+=10
+					enemy6.style.left = enemyX6
+					enemyX5+=10
+					enemy5.style.left = enemyX5
+					enemyX4+=10
+					enemy4.style.left = enemyX4
+					enemyX3+=10
+					enemy3.style.left = enemyX3
+					enemyX2+=10
+					enemy2.style.left = enemyX2
+					enemyX1+=10
+					enemy1.style.left = enemyX1
+					enemyX+=10
+					enemy.style.left = enemyX
+					playerX+=10
+					playerShip.style.left = playerX
+					laserX+=10
+					laser.style.left = laserX
+					laserX1+=10
+					laser1.style.left = laserX1
+					SweeperMove2()
+				}
+				enemyX8= Math.round(Math.random()*1150+50-enemyXval9)
+				enemyY8= -250
+				enemy8.style.left= enemyX8
+				enemy8.style.top= enemyY8
+			}
+		}if(score>450){
+			if(choose1<93){
+				enemyY9 = enemyY9+enemySpeed9
+				enemy9.style.top= enemyY9
+			}
+			if(score==500 && temp1==0){
+				temp1=1
+				makeTransparent1()
+			}
+			if(enemyY9>540){
+				clearInterval(sweeper3)
+				enemy9.style.transform = 'rotate(0deg)'
+				if(choose1>75 && choose1<=93){
+					enemyX8+=50
+					enemy8.style.left = enemyX8
+					enemyX7+=50
+					enemy7.style.left = enemyX7
+					enemyX6+=50
+					enemy6.style.left = enemyX6
+					enemyX5+=50
+					enemy5.style.left = enemyX5
+					enemyX4+=50
+					enemy4.style.left = enemyX4
+					enemyX3+=50
+					enemy3.style.left = enemyX3
+					enemyX2+=50
+					enemy2.style.left = enemyX2
+					enemyX1+=50
+					enemy1.style.left = enemyX1
+					enemyX+=50
+					enemy.style.left = enemyX
+					playerX+=50
+					playerShip.style.left = playerX
+					laserX+=50
+					laser.style.left = laserX
+					laserX1+=50
+					laser1.style.left = laserX1
+				}else if(choose1>93 && choose1<=100){
+					enemyX8-=10
+					enemy8.style.left = enemyX8
+					enemyX7-=10
+					enemy7.style.left = enemyX7
+					enemyX6-=10
+					enemy6.style.left = enemyX6
+					enemyX5-=10
+					enemy5.style.left = enemyX5
+					enemyX4-=10
+					enemy4.style.left = enemyX4
+					enemyX3-=10
+					enemy3.style.left = enemyX3
+					enemyX2-=10
+					enemy2.style.left = enemyX2
+					enemyX1-=10
+					enemy1.style.left = enemyX1
+					enemyX-=10
+					enemy.style.left = enemyX
+					playerX-=10
+					playerShip.style.left = playerX
+					laserX-=10
+					laser.style.left = laserX
+					laserX1-=10
+					laser1.style.left = laserX1
+				}
+				choose1 = Math.random()*100
+				if(choose1<=40){
+					enemy9.src="./img/Illenemy1.png"
+					enemy9.style.width= 100
+					enemyXval9 = 100
+					enemySpeed9 = 0.5
+				}else if(choose1>40 && choose1<=75){
+					enemy9.src="./img/Illenemy.png"
+					enemy9.style.width= 100
+					enemyXval9 = 100
+					enemySpeed9 = 0.3
+				}else if(choose1>75 && choose1<=93){
+					enemy9.src="./img/Illenemy2.png"
+					enemy9.style.width= 150
+					enemyXval9 = 150
+					enemySpeed9 = 0.1
+					enemyX8-=50
+					enemy8.style.left = enemyX8
+					enemyX7-=50
+					enemy7.style.left = enemyX7
+					enemyX6-=50
+					enemy6.style.left = enemyX6
+					enemyX5-=50
+					enemy5.style.left = enemyX5
+					enemyX4-=50
+					enemy4.style.left = enemyX4
+					enemyX3-=50
+					enemy3.style.left = enemyX3
+					enemyX2-=50
+					enemy2.style.left = enemyX2
+					enemyX1-=50
+					enemy1.style.left = enemyX1
+					enemyX-=50
+					enemy.style.left = enemyX
+					playerX-=50
+					playerShip.style.left = playerX
+					laserX-=50
+					laser.style.left = laserX
+					laserX1-=50
+					laser1.style.left = laserX1
+				}else if(choose1>93 && choose1<=100){
+					enemy9.src="./img/Illenemy4.png"
+					enemy9.style.width= 90
+					enemyXval9 = 90
+					enemySpeed9 = 0.1
+					enemyX8+=10
+					enemy8.style.left = enemyX8
+					enemyX7+=10
+					enemy7.style.left = enemyX7
+					enemyX6+=10
+					enemy6.style.left = enemyX6
+					enemyX5+=10
+					enemy5.style.left = enemyX5
+					enemyX4+=10
+					enemy4.style.left = enemyX4
+					enemyX3+=10
+					enemy3.style.left = enemyX3
+					enemyX2+=10
+					enemy2.style.left = enemyX2
+					enemyX1+=10
+					enemy1.style.left = enemyX1
+					enemyX+=10
+					enemy.style.left = enemyX
+					playerX+=10
+					playerShip.style.left = playerX
+					laserX+=10
+					laser.style.left = laserX
+					laserX1+=10
+					laser1.style.left = laserX1
+					SweeperMove3()
+				}
+				enemyX9= Math.round(Math.random()*1150+50)
+				enemyY9= -250
+				enemy9.style.left= enemyX9
+				enemy9.style.top= enemyY9
+			}
+		}
+	},1)
+}
+function SweeperMove(){
+	sweeper = setInterval(()=>{
+		enemyY6 += enemySpeed6Y
+		enemy6.style.top = enemyY6
+		enemyX6 += enemySpeed6X
+		enemy6.style.left = enemyX6
+		if(enemyY6>=250){
+			enemySpeed6Y =0
+			enemySpeed6X =0.3
+			if(enemyX6>=1150+50-enemyXval7-enemyXval8-enemyXval9){
+				enemySpeed6Y =0.3
+				enemySpeed6X =0
+			}
+		}else if(enemyY6>=150){
+			enemySpeed6Y =0
+			enemySpeed6X =-0.3
+			if(enemyX6<=50-enemyXval7-enemyXval8-enemyXval9){
+				enemySpeed6Y =0.3
+				enemySpeed6X =0
+			}
+		}else if(enemyY6>=50){
+			enemySpeed6Y =0
+			enemySpeed6X =0.3
+			if(enemyX6>=1150+50-enemyXval7-enemyXval8-enemyXval9){
+				enemySpeed6Y =0.3
+				enemySpeed6X =0
+			}
+		}else if(enemyY6>=-50){
+			enemySpeed6Y =0
+			enemySpeed6X =-0.3
+			if(enemyX6<=50-enemyXval7-enemyXval8-enemyXval9){
+				enemySpeed6Y =0.3
+				enemySpeed6X =0
+			}
+		}else if(enemyY6>=-150){
+			enemySpeed6Y =0
+			enemySpeed6X =0.3
+			if(enemyX6>=1150+50-enemyXval7-enemyXval8-enemyXval9){
+				enemySpeed6Y =0.3
+				enemySpeed6X =0
+			}
+		}else{
+			if(score>300){
+				enemySpeed6Y =0.3
+				enemySpeed6X =0
+			}
+		}
+	},1)
+}
+function SweeperMove1(){
+	sweeper1 = setInterval(()=>{
+		enemyY7 += enemySpeed7Y
+		enemy7.style.top = enemyY7
+		enemyX7 += enemySpeed7X
+		enemy7.style.left = enemyX7
+		if(enemyY7>=250){
+			enemySpeed7Y =0
+			enemySpeed7X =-0.3
+			if(enemyX7<=50-enemyXval8-enemyXval9){
+				enemySpeed7Y =0.3
+				enemySpeed7X =0
+			}
+		}else if(enemyY7>=150){
+			enemySpeed7Y =0
+			enemySpeed7X =0.3
+			if(enemyX7>=1150+50-enemyXval8-enemyXval9){
+				enemySpeed7Y =0.3
+				enemySpeed7X =0
+			}
+		}else if(enemyY7>=50){
+			enemySpeed7Y =0
+			enemySpeed7X =-0.3
+			if(enemyX7<=50-enemyXval8-enemyXval9){
+				enemySpeed7Y =0.3
+				enemySpeed7X =0
+			}
+		}else if(enemyY7>=-50){
+			enemySpeed7Y =0
+			enemySpeed7X =0.3
+			if(enemyX7>=1150+50-enemyXval8-enemyXval9){
+				enemySpeed7Y =0.3
+				enemySpeed7X =0
+			}
+		}else if(enemyY7>=-150){
+			enemySpeed7Y =0
+			enemySpeed7X =-0.3
+			if(enemyX7<=50-enemyXval8-enemyXval9){
+				enemySpeed7Y =0.3
+				enemySpeed7X =0
+			}
+		}else{
+			if(score>350){
+				enemySpeed7Y =0.3
+				enemySpeed7X =0
+			}
+		}
+	},1)
+}
+function SweeperMove2(){
+	enemySpeed8Y =0.3
+	enemySpeed8X =0
+	var option = Math.round(Math.random())
+	sweeper2 = setInterval(()=>{
+		if(score>400){
+			enemyRotate2+=rotateSpeed2
+			enemy8.style.transform = 'rotate('+enemyRotate2+'deg)'
+			enemyY8 += enemySpeed8Y
+			enemy8.style.top = enemyY8
+			enemyX8 += enemySpeed8X
+			enemy8.style.left = enemyX8
+			if(option == 0){
+				if(enemyY8>=250){
+					enemySpeed8Y =0
+					enemySpeed8X =0.3
+					if(enemyX8>=1150+50-enemyXval9){
+						enemySpeed8Y =0.3
+						enemySpeed8X =0
+					}
+				}else if(enemyY8>=150){
+					enemySpeed8Y =0
+					enemySpeed8X =-0.3
+					if(enemyX8<=50-enemyXval9){
+						enemySpeed8Y =0.3
+						enemySpeed8X =0
+					}
+				}else if(enemyY8>=50){
+					enemySpeed8Y =0
+					enemySpeed8X =0.3
+					if(enemyX8>=1150+50-enemyXval9){
+						enemySpeed8Y =0.3
+						enemySpeed8X =0
+					}
+				}else if(enemyY8>=-50){
+					enemySpeed8Y =0
+					enemySpeed8X =-0.3
+					if(enemyX8<=50-enemyXval9){
+						enemySpeed8Y =0.3
+						enemySpeed8X =0
+					}
+				}else if(enemyY8>=-150){
+					enemySpeed8Y =0
+					enemySpeed8X =0.3
+					if(enemyX8>=1150+50-enemyXval9){
+						enemySpeed8Y =0.3
+						enemySpeed8X =0
+					}
+				}else{
+					if(score>350){
+						enemySpeed8Y =0.3
+						enemySpeed8X =0
+					}
+				}
+			}else if(option == 1){
+				if(enemyY8>=250){
+					enemySpeed8Y =0
+					enemySpeed8X =-0.3
+					if(enemyX8>=1150+50-enemyXval9){
+						enemySpeed8Y =0.3
+						enemySpeed8X =0
+					}
+				}else if(enemyY8>=150){
+					enemySpeed8Y =0
+					enemySpeed8X =0.3
+					if(enemyX8>=1150+50-enemyXval9){
+						enemySpeed8Y =0.3
+						enemySpeed8X =0
+					}
+				}else if(enemyY8>=50){
+					enemySpeed8Y =0
+					enemySpeed8X =-0.3
+					if(enemyX8<=50-enemyXval9){
+						enemySpeed8Y =0.3
+						enemySpeed8X =0
+					}
+				}else if(enemyY8>=-50){
+					enemySpeed8Y =0
+					enemySpeed8X =0.3
+					if(enemyX8>=1150+50-enemyXval9){
+						enemySpeed8Y =0.3
+						enemySpeed8X =0
+					}
+					
+				}else if(enemyY8>=-150){
+					enemySpeed8Y =0
+					enemySpeed8X =-0.3
+					if(enemyX8<=50-enemyXval9){
+						enemySpeed8Y =0.3
+						enemySpeed8X =0
+					}
+				}else{
+					if(score>350){
+						enemySpeed8Y =0.3
+						enemySpeed8X =0
+					}
+				}
+			}
+		}
+	},1)
+}
+function SweeperMove3(){
+	enemySpeed9Y =0.3
+	enemySpeed9X =0
+	var option1 = Math.round(Math.random())
+	sweeper3 = setInterval(()=>{
+		if(score>450){
+			enemyRotate3+=rotateSpeed3
+			enemy9.style.transform = 'rotate('+enemyRotate3+'deg)'
+			enemyY9 += enemySpeed9Y
+			enemy9.style.top = enemyY9
+			enemyX9 += enemySpeed9X
+			enemy9.style.left = enemyX9
+			if(option1 == 0){
+				if(enemyY9>=250){
+					enemySpeed9Y =0
+					enemySpeed9X =0.3
+					if(enemyX9>=1150+50){
+						enemySpeed9Y =0.3
+						enemySpeed9X =0
+					}
+				}else if(enemyY9>=150){
+					enemySpeed9Y =0
+					enemySpeed9X =-0.3
+					if(enemyX9<=50){
+						enemySpeed9Y =0.3
+						enemySpeed9X =0
+					}
+				}else if(enemyY9>=50){
+					enemySpeed9Y =0
+					enemySpeed9X =0.3
+					if(enemyX9>=1150+50){
+						enemySpeed9Y =0.3
+						enemySpeed9X =0
+					}
+				}else if(enemyY9>=-50){
+					enemySpeed9Y =0
+					enemySpeed9X =-0.3
+					if(enemyX9<=50){
+						enemySpeed9Y =0.3
+						enemySpeed9X =0
+					}
+				}else if(enemyY9>=-150){
+					enemySpeed9Y =0
+					enemySpeed9X =0.3
+					if(enemyX9>=1150+50){
+						enemySpeed9Y =0.3
+						enemySpeed9X =0
+					}
+				}else{
+					if(score>350){
+						enemySpeed9Y =0.3
+						enemySpeed9X =0
+					}
+				}
+			}else if(option1 == 1){
+				if(enemyY9>=250){
+					enemySpeed9Y =0
+					enemySpeed9X =-0.3
+					if(enemyX9>=1150+50){
+						enemySpeed9Y =0.3
+						enemySpeed9X =0
+					}
+				}else if(enemyY9>=150){
+					enemySpeed9Y =0
+					enemySpeed9X =0.3
+					if(enemyX9>=1150+50){
+						enemySpeed9Y =0.3
+						enemySpeed9X =0
+					}
+				}else if(enemyY9>=50){
+					enemySpeed9Y =0
+					enemySpeed9X =-0.3
+					if(enemyX9<=50){
+						enemySpeed9Y =0.3
+						enemySpeed9X =0
+					}
+				}else if(enemyY9>=-50){
+					enemySpeed9Y =0
+					enemySpeed9X =0.3
+					if(enemyX9>=1150+50){
+						enemySpeed9Y =0.3
+						enemySpeed9X =0
+					}
+					
+				}else if(enemyY9>=-150){
+					enemySpeed9Y =0
+					enemySpeed9X =-0.3
+					if(enemyX9<=50){
+						enemySpeed9Y =0.3
+						enemySpeed9X =0
+					}
+				}else{
+					if(score>350){
+						enemySpeed9Y =0.3
+						enemySpeed9X =0
+					}
+				}
+			}
+		}
+	},1)
+}
+
+function makeTransparent(){
+	var transNum=1
+	var transparency = setInterval(()=>{
+		transNum-=0.1
+		enemy8.style.opacity = transNum
+		if (transNum == 0){
+			clearInterval(transparency)
+		}
+	},100)
+}
+function makeTransparent1(){
+	var transNum1=1
+	var transparency1 = setInterval(()=>{
+		transNum1-=0.1
+		enemy9.style.opacity = transNum1
+		if (transNum1 == 0){
+			clearInterval(transparency1)
+		}
+	},100)
+}
+function showScore(){
+	scoreBoard = setInterval(()=>{
+		score = score+scoreSpeed
+		document.getElementById('score').innerHTML = "<h1><font color='firebrick'>-</font> Score <font color='firebrick'>-</font><br><font color='firebrick'>"+score
+		if(score==500){
+			clearInterval(scoreBoard)
+		}
+	},480)
+}
+
+var gameOverCheck = setInterval(()=>{
+	if(enemyY>410-enemyYval4-enemyYval5-enemyYval6||enemyY1>410-enemyYval4-enemyYval5-enemyYval6||enemyY2>410-enemyYval4-enemyYval5-enemyYval6||enemyY3>410-enemyYval4-enemyYval5-enemyYval6||enemyY4>365-enemyYval5-enemyYval6||enemyY5>365-enemyYval6||enemyY6>360||enemyY7>360){
+		clearInterval(scoreBoard)
+		gameOver()
+		clearInterval(gameOverCheck)
+	}
+},1)
+
+function gameOver(){
+	makeTransparent()
+	makeTransparent1()
+	moveAllowed=false
+	bossSpeed=0.75
+	boss.src="./img/enemy3.png"
+	var bossMove = setInterval(()=>{
+		bossY+=bossSpeed
+		boss.style.top=bossY
+		if(bossY>=-215){
+			bossY=-216
+			bossSpeed=0
+			flare.style.top=-150
+			flare.src="./img/flare.gif"
+			setTimeout(()=>{
+				flare.style.top=-1000
+				enemyLaserY = 5
+				enemyLaser.style.top = enemyLaserY
+				gameOver1()
+				clearInterval(bossMove)
+			},2400)
+		}
+	},1)
+	if(playerX>615-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9){
+		var playerMove=setInterval(()=>{
+			var playerSpeed=-0.7
+			playerX+=playerSpeed
+			playerShip.style.left=playerX
+			if(playerX<615-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9){
+				playerX=615-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9
+				playerShip.style.left=playerX
+				clearInterval(playerMove)
+			}	
+		},1)
+	}else if(playerX<615-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9){
+		var playerMove=setInterval(()=>{
+			var playerSpeed=0.7
+			playerX+=playerSpeed
+			playerShip.style.left=playerX
+			if(playerX>615-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9){
+				playerX=615-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9
+				playerShip.style.left=playerX
+				clearInterval(playerMove)
+			}	
+		},1)
+	}
+}
+
+function gameOver1(){
+	playerShip.src='./img/explosion.gif'
+	setTimeout(()=>{
+		document.getElementById('score').innerHTML= "<h1><u><b><font color='red'>GAME OVER</font></b></u><br>Your -<font color='firebrick'>- "+score+" -</font>- Score"
+		setTimeout(()=>{
+			playerShip.remove()
+		},2125)
+	},1000)
+}
+
+function Endgame(){
+	if((enemyY<-209-enemyYval4-enemyYval5)&&(enemyY1<-209-enemyYval4-enemyYval5)&&(enemyY2<-209-enemyYval4-enemyYval5)&&(enemyY3<-209-enemyYval4-enemyYval5)&&(enemyY4<-209-enemyYval5)&&(enemyY5<-209)&&(enemyY6<-209)&&(enemyY7<-209)&&(score==500)){
+		bossSpeed=0.5
+		boss.src="./img/enemy3.png"
+		clearInterval(enemyMove)
+		document.getElementById('score').innerHTML = "<h1><font color='red'>BOSS FIGHT<br>-"
+		var bossMove = setInterval(()=>{
+			bossY+=bossSpeed
+			boss.style.top=bossY
+			if(bossY>=-215){
+				bossY=-216
+				bossSpeed=0
+				flare.style.top=-150
+				flare.src="./img/flare.gif"
+				setTimeout(()=>{
+					flare.style.top=-1000
+					Endgame1()//Endgame1()
+					clearInterval(bossMove)
+				},2400)
+			}
+		},1)
+		var bossHealth = setInterval(()=>{
+			healthNum++
+			health=""
+			health = healthDefine(healthNum,health)
+			document.getElementById('score').innerHTML = "<h1><font color='red'>BOSS FIGHT<br>"+health
+			if(healthNum==100){
+				clearInterval(bossHealth)
+			}
+		},38.5)
+	}
+}
+function Endgame1(){
+	enemyLaserY = 5
+	enemyLaser.style.top = enemyLaserY
+	choose=Math.round(Math.random())
+	if(choose==0){
+		bossSpeed=0.5
+	}else if(choose==1){
+		bossSpeed=-0.5
+	}
+	healthNum=100
+	var bossMove=setInterval(()=>{
+		bossX+=bossSpeed
+		boss.style.left=bossX
+		enemyLaserX+=bossSpeed
+		enemyLaser.style.left=enemyLaserX
+		if(bossX>=920){
+			bossSpeed=-0.5
+		}
+		if(bossX<=25){
+			bossSpeed=0.5
+		}
+		if((laserX<bossX-835 && laserX>bossX-1000 && laserY<bossY+200)||(laserX<bossX-1080 && laserX>bossX-1250 && laserY<bossY+200)||(laserX<=bossX-1000 && laserX>=bossX-1080 && laserY<bossY+420)){
+			laserActivated=false
+			laserY=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+			laser.style.top = laserY
+			healthNum--
+			health=""
+			health = healthDefine(healthNum,health)
+			Opphealth=""
+			Opphealth = healthDefine(100-healthNum,Opphealth)
+			document.getElementById('score').innerHTML = "<h1><font color='red'>BOSS FIGHT<br><font color='grey'>"+Opphealth+"<font color='red'>"+health
+		}
+		if((laserX1<bossX-860 && laserX1>bossX-1025 && laserY1<bossY+200)||(laserX1<bossX-1105 && laserX1>bossX-1275 && laserY1<bossY+200)||(laserX1<=bossX-1025 && laserX1>=bossX-1105 && laserY1<bossY+420)){
+			laser1Activated=false
+			laserY1=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+			laser1.style.top = laserY1
+			healthNum--
+			health=""
+			health = healthDefine(healthNum,health)
+			Opphealth=""
+			Opphealth = healthDefine(100-healthNum,Opphealth)
+			document.getElementById('score').innerHTML = "<h1><font color='red'>BOSS FIGHT<br><font color='grey'>"+Opphealth+"<font color='red'>"+health
+		}if(healthNum==51){
+			enemyLaserY=1000
+			enemyLaser.style.top = enemyLaserY
+			transition()
+			clearInterval(bossMove)
+		}if(playerX<bossX-650-enemyXval8-enemyXval9 && playerX>bossX-825-enemyXval8-enemyXval9){
+			bossGameOver(1)
+			clearInterval(bossMove)
+		}
+	},1)
+}
+function transition(){
+	if(bossX>475){
+		var bossMove=setInterval(()=>{
+			bossSpeed=-0.5
+			bossX+=bossSpeed
+			boss.style.left=bossX
+			if(bossX<475){
+				bossX=475
+				boss.style.left=bossX
+				Endgame2()
+				clearInterval(bossMove)
+			}	
+		},1)
+	}else if(bossX<475){
+		var bossMove=setInterval(()=>{
+			bossSpeed=0.5
+			bossX+=bossSpeed
+			boss.style.left=bossX
+			if(bossX>475){
+				bossX=475
+				boss.style.left=bossX
+				Endgame2()
+				clearInterval(bossMove)
+			}	
+		},1)
+	}
+}
+function Endgame2(){
+	flare1.style.top=-420
+	flare1.src="./img/flare.gif"
+	flare2.style.top=-420
+	flare2.src="./img/flare.gif"
+	setTimeout(()=>{
+		flare1.style.top=-1000
+		enemyLaserY1=-70
+		enemyLaser1.style.top=enemyLaserY1
+		enemyLaserY2=344
+		enemyLaser2.style.top=enemyLaserY2
+		flare2.style.top=-1000
+		enemyLaserY3=-70
+		enemyLaser3.style.top=enemyLaserY3
+		enemyLaserY4=344
+		enemyLaser4.style.top=enemyLaserY4
+		choose=Math.round(Math.random())
+		if(choose==0){
+			bossSpeed=0
+			setTimeout(()=>{
+				bossSpeed=0.5
+			},1000)
+		}else if(choose==1){
+			bossSpeed=0
+			setTimeout(()=>{
+				bossSpeed=-0.5
+			},1000)
+		}
+		var bossMove=setInterval(()=>{
+			bossX+=bossSpeed
+			boss.style.left=bossX
+			enemyLaserX1+=bossSpeed
+			enemyLaser1.style.left=enemyLaserX1
+			enemyLaserX2+=bossSpeed
+			enemyLaser2.style.left=enemyLaserX2
+			enemyLaserX3+=bossSpeed
+			enemyLaser3.style.left=enemyLaserX3
+			enemyLaserX4+=bossSpeed
+			enemyLaser4.style.left=enemyLaserX4
+			if(bossX>=920){
+				bossSpeed=-0.5
+			}
+			if(bossX<=25){
+				bossSpeed=0.5
+				}if((laserX<bossX-835 && laserX>bossX-1000 && laserY<bossY+200)||(laserX<bossX-1080 && laserX>bossX-1250 && laserY<bossY+200)||(laserX<=bossX-1000 && laserX>=bossX-1080 && laserY<bossY+420)){
+				laserActivated=false
+				laserY=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+				laser.style.top = laserY
+				healthNum--
+				health=""
+				health = healthDefine(healthNum,health)
+				Opphealth=""
+				Opphealth = healthDefine(100-healthNum,Opphealth)
+				document.getElementById('score').innerHTML = "<h1><font color='red'>BOSS FIGHT<br><font color='grey'>"+Opphealth+"<font color='red'>"+health
+			}
+			if((laserX1<bossX-860 && laserX1>bossX-1025 && laserY1<bossY+200)||(laserX1<bossX-1105 && laserX1>bossX-1275 && laserY1<bossY+200)||(laserX1<=bossX-1025 && laserX1>=bossX-1105 && laserY1<bossY+420)){
+				laser1Activated=false
+				laserY1=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+				laser1.style.top = laserY1
+				healthNum--
+				health=""
+				health = healthDefine(healthNum,health)
+				Opphealth=""
+				Opphealth = healthDefine(100-healthNum,Opphealth)
+				document.getElementById('score').innerHTML = "<h1><font color='red'>BOSS FIGHT<br><font color='grey'>"+Opphealth+"<font color='red'>"+health
+			}if(healthNum==21){
+				enemyLaserY1=-1000
+				enemyLaser1.style.top=enemyLaserY1
+				enemyLaserY2=1000
+				enemyLaser2.style.top=enemyLaserY2
+				enemyLaserY3=-1000
+				enemyLaser3.style.top=enemyLaserY3
+				enemyLaserY4=1000
+				enemyLaser4.style.top=enemyLaserY4
+				transition1()
+				clearInterval(bossMove)
+			}if((playerX<bossX-570-enemyXval8-enemyXval9 && playerX>bossX-690-enemyXval8-enemyXval9) || (playerX<bossX-790-enemyXval8-enemyXval9 && playerX>bossX-910-enemyXval8-enemyXval9)){//-438.5 377
+				bossGameOver(2)
+				clearInterval(bossMove)
+			}
+		},1)
+	},2400)
+}
+function transition1(){
+	if(bossX>475){
+		var bossMove=setInterval(()=>{
+			bossSpeed=-0.5
+			bossX+=bossSpeed
+			boss.style.left=bossX
+			if(bossX<475){
+				bossX=475
+				boss.style.left=bossX
+				Endgame3()
+				clearInterval(bossMove)
+			}	
+		},1)
+	}else if(bossX<475){
+		var bossMove=setInterval(()=>{
+			bossSpeed=0.5
+			bossX+=bossSpeed
+			boss.style.left=bossX
+			if(bossX>475){
+				bossX=475
+				boss.style.left=bossX
+				Endgame3()
+				clearInterval(bossMove)
+			}	
+		},1)
+	}
+}
+function Endgame3(){
+	var laserSwitch
+	var laserSwitch1
+	var laserSwitch2
+	var laserSwitch3
+	var laserSwitch4
+	var laserSwitch5
+	var laserCount=0
+	flare.style.top=-150
+	flare.src="./img/flare.gif"
+	setTimeout(()=>{
+		laserCount=1
+		flare.style.top=-1000
+		enemyLaserY = 5
+		enemyLaser.style.top = enemyLaserY
+		enemyLaserX = 15
+		enemyLaser.style.left = enemyLaserX
+		enemyLaserX1=-80
+		enemyLaser1.style.left=enemyLaserX1
+		enemyLaserX2=-150
+		enemyLaser2.style.left=enemyLaserX2
+		enemyLaserX3=-520
+		enemyLaser3.style.left=enemyLaserX3
+		enemyLaserX4=-590
+		enemyLaser4.style.left=enemyLaserX4
+		choose=Math.round(Math.random())
+		if(choose==0){
+			bossSpeed=0.5
+		}else if(choose==1){
+			bossSpeed=-0.5
+		}
+		flare1.style.top=-420
+		flare1.src="./img/flare.gif"
+		flare2.style.top=-420
+		flare2.src="./img/flare.gif"
+		var bossMove=setInterval(()=>{
+			bossX+=bossSpeed
+			boss.style.left=bossX
+			flare.style.left=bossX-300
+			flare1.style.left=bossX-475
+			flare2.style.left=bossX-910
+			enemyLaserX+=bossSpeed
+			enemyLaser.style.left=enemyLaserX
+			enemyLaserX1+=bossSpeed
+			enemyLaser1.style.left=enemyLaserX1
+			enemyLaserX2+=bossSpeed
+			enemyLaser2.style.left=enemyLaserX2
+			enemyLaserX3+=bossSpeed
+			enemyLaser3.style.left=enemyLaserX3
+			enemyLaserX4+=bossSpeed
+			enemyLaser4.style.left=enemyLaserX4
+			if(bossX>=920){
+				bossSpeed=-0.5
+			}
+			if(bossX<=25){
+				bossSpeed=0.5
+				}if((laserX<bossX-835 && laserX>bossX-1000 && laserY<bossY+200)||(laserX<bossX-1080 && laserX>bossX-1250 && laserY<bossY+200)||(laserX<=bossX-1000 && laserX>=bossX-1080 && laserY<bossY+420)){
+				laserActivated=false
+				laserY=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+				laser.style.top = laserY
+				healthNum--
+				health=""
+				health = healthDefine(healthNum,health)
+				Opphealth=""
+				Opphealth = healthDefine(100-healthNum,Opphealth)
+				document.getElementById('score').innerHTML = "<h1><font color='red'>BOSS FIGHT<br><font color='grey'>"+Opphealth+"<font color='red'>"+health
+			}
+			if((laserX1<bossX-860 && laserX1>bossX-1025 && laserY1<bossY+200)||(laserX1<bossX-1105 && laserX1>bossX-1275 && laserY1<bossY+200)||(laserX1<=bossX-1025 && laserX1>=bossX-1105 && laserY1<bossY+420)){
+				laser1Activated=false
+				laserY1=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+				laser1.style.top = laserY1
+				healthNum--
+				health=""
+				health = healthDefine(healthNum,health)
+				Opphealth=""
+				Opphealth = healthDefine(100-healthNum,Opphealth)
+				document.getElementById('score').innerHTML = "<h1><font color='red'>BOSS FIGHT<br><font color='grey'>"+Opphealth+"<font color='red'>"+health
+			}
+			if(healthNum==5){
+				flare.style.top=-1000
+				flare1.style.top=-1000
+				flare2.style.top=-1000
+				enemyLaserY=-1000
+				enemyLaser.style.top=enemyLaserY
+				enemyLaserY1=-1000
+				enemyLaser1.style.top=enemyLaserY1
+				enemyLaserY2=1000
+				enemyLaser2.style.top=enemyLaserY2
+				enemyLaserY3=-1000
+				enemyLaser3.style.top=enemyLaserY3
+				enemyLaserY4=1000
+				enemyLaser4.style.top=enemyLaserY4
+				clearInterval(laserSwitch)
+				clearTimeout(laserSwitch1)
+				clearTimeout(laserSwitch2)
+				clearTimeout(laserSwitch3)
+				clearTimeout(laserSwitch4)
+				clearTimeout(laserSwitch5)
+				transition2()
+				clearInterval(bossMove)
+			}if(laserCount!=0){
+				if((playerX<bossX-570-enemyXval8-enemyXval9 && playerX>bossX-690-enemyXval8-enemyXval9 && laserCount==2) || (playerX<bossX-790-enemyXval8-enemyXval9 && playerX>bossX-910-enemyXval8-enemyXval9 && laserCount==2)){
+					flare.style.top=-1000
+					flare1.style.top=-1000
+					flare2.style.top=-1000
+					clearInterval(laserSwitch)
+					clearTimeout(laserSwitch1)
+					clearTimeout(laserSwitch2)
+					clearTimeout(laserSwitch3)
+					clearTimeout(laserSwitch4)
+					clearTimeout(laserSwitch5)
+					bossGameOver(3)
+					clearInterval(bossMove)
+				}else if(playerX<bossX-650-enemyXval8-enemyXval9 && playerX>bossX-825-enemyXval8-enemyXval9 && laserCount==1){
+					flare.style.top=-1000
+					flare1.style.top=-1000
+					flare2.style.top=-1000
+					clearInterval(laserSwitch)
+					clearTimeout(laserSwitch1)
+					clearTimeout(laserSwitch2)
+					clearTimeout(laserSwitch3)
+					clearTimeout(laserSwitch4)
+					clearTimeout(laserSwitch5)
+					bossGameOver(3)
+					clearInterval(bossMove)
+				}
+			}
+		},1)
+		laserSwitch1=setTimeout(()=>{
+			laserCount=0
+			enemyLaserY = -1000
+			enemyLaser.style.top = enemyLaserY
+			laserSwitch2=setTimeout(()=>{
+				laserCount=2
+				flare1.style.top=-1000
+				flare2.style.top=-1000
+				enemyLaserY1=-70
+				enemyLaser1.style.top=enemyLaserY1
+				enemyLaserY2=344
+				enemyLaser2.style.top=enemyLaserY2
+				enemyLaserY3=-70
+				enemyLaser3.style.top=enemyLaserY3
+				enemyLaserY4=344
+				enemyLaser4.style.top=enemyLaserY4
+				laserSwitch3=setTimeout(()=>{
+					flare.style.top=-150
+					flare.src="./img/flare.gif"
+					laserSwitch4=setTimeout(()=>{
+						laserCount=0
+						enemyLaserY1=-1000
+						enemyLaser1.style.top=enemyLaserY1
+						enemyLaserY2=-1000
+						enemyLaser2.style.top=enemyLaserY2
+						enemyLaserY3=-1000
+						enemyLaser3.style.top=enemyLaserY3
+						enemyLaserY4=-1000
+						enemyLaser4.style.top=enemyLaserY4
+						laserSwitch5=setTimeout(()=>{
+							laserCount=1
+							flare.style.top=-1000
+							enemyLaserY = 5
+							enemyLaser.style.top = enemyLaserY
+						},600)
+					},1800)
+				},500)
+			},600)
+		},1800)
+		laserSwitch=setInterval(()=>{
+			flare1.style.top=-420
+			flare1.src="./img/flare.gif"
+			flare2.style.top=-420
+			flare2.src="./img/flare.gif"
+			laserSwitch1=setTimeout(()=>{
+				laserCount=0
+				enemyLaserY = -1000
+				enemyLaser.style.top = enemyLaserY
+				laserSwitch2=setTimeout(()=>{
+					laserCount=2
+					flare1.style.top=-1000
+					flare2.style.top=-1000
+					enemyLaserY1=-70
+					enemyLaser1.style.top=enemyLaserY1
+					enemyLaserY2=344
+					enemyLaser2.style.top=enemyLaserY2
+					enemyLaserY3=-70
+					enemyLaser3.style.top=enemyLaserY3
+					enemyLaserY4=344
+					enemyLaser4.style.top=enemyLaserY4
+					laserSwitch3=setTimeout(()=>{
+						flare.style.top=-150
+						flare.src="./img/flare.gif"
+						laserSwitch4=setTimeout(()=>{
+							laserCount=0
+							enemyLaserY1=-1000
+							enemyLaser1.style.top=enemyLaserY1
+							enemyLaserY2=-1000
+							enemyLaser2.style.top=enemyLaserY2
+							enemyLaserY3=-1000
+							enemyLaser3.style.top=enemyLaserY3
+							enemyLaserY4=-1000
+							enemyLaser4.style.top=enemyLaserY4
+							laserSwitch5=setTimeout(()=>{
+								laserCount=1
+								flare.style.top=-1000
+								enemyLaserY = 5
+								enemyLaser.style.top = enemyLaserY
+							},600)
+						},1800)
+					},500)
+				},600)
+			},1800)
+		},5800)
+	},2400)
+}
+function transition2(){
+	if(bossX>475){
+		var bossMove=setInterval(()=>{
+			enemyLaserY=-1000
+			enemyLaser.style.top = enemyLaserY
+			enemyLaserY1=-1000
+			enemyLaser1.style.top = enemyLaserY1
+			enemyLaserY2=-1000
+			enemyLaser2.style.top = enemyLaserY2
+			enemyLaserY3=-1000
+			enemyLaser3.style.top = enemyLaserY3
+			enemyLaserY4=-1000
+			enemyLaser4.style.top = enemyLaserY4
+			flare.style.top = -1000
+			flare1.style.top = -1000
+			flare1.style.top = -1000
+			bossSpeed=-0.5
+			bossX+=bossSpeed
+			boss.style.left=bossX
+			if(bossX<475){
+				bossX=475
+				boss.style.left=bossX
+				Endgame4()
+				clearInterval(bossMove)
+			}	
+		},1)
+	}else if(bossX<475){
+		var bossMove=setInterval(()=>{
+			enemyLaserY=-1000
+			enemyLaser.style.top = enemyLaserY
+			enemyLaserY1=-1000
+			enemyLaser1.style.top = enemyLaserY1
+			enemyLaserY2=-1000
+			enemyLaser2.style.top = enemyLaserY2
+			enemyLaserY3=-1000
+			enemyLaser3.style.top = enemyLaserY3
+			enemyLaserY4=-1000
+			enemyLaser4.style.top = enemyLaserY4
+			flare.style.top = -1000
+			flare1.style.top = -1000
+			flare1.style.top = -1000
+			bossSpeed=0.5
+			bossX+=bossSpeed
+			boss.style.left=bossX
+			if(bossX>475){
+				bossX=475
+				boss.style.left=bossX
+				Endgame4()
+				clearInterval(bossMove)
+			}	
+		},1)
+	}
+}
+function Endgame4(){
+	var check = setInterval(()=>{
+		enemyLaserY=-1000
+		enemyLaser.style.top = enemyLaserY
+		enemyLaserY1=-1000
+		enemyLaser1.style.top = enemyLaserY1
+		enemyLaserY2=-1000
+		enemyLaser2.style.top = enemyLaserY2
+		enemyLaserY3=-1000
+		enemyLaser3.style.top = enemyLaserY3
+		enemyLaserY4=-1000
+		enemyLaser4.style.top = enemyLaserY4
+		enemyLaserX = 15
+		enemyLaser.style.left = enemyLaserX
+		enemyLaserX1=-80
+		enemyLaser1.style.left=enemyLaserX1
+		enemyLaserX2=-150
+		enemyLaser2.style.left=enemyLaserX2
+		enemyLaserX3=-520
+		enemyLaser3.style.left=enemyLaserX3
+		enemyLaserX4=-590
+		enemyLaser4.style.left=enemyLaserX4
+		flare.style.top=-150
+		flare1.style.top=-420
+		flare2.style.top=-420
+	},0.001)
+	flare.style.left=175
+	flare1.style.left=0
+	flare2.style.left=-430
+	flare.src="./img/flare.gif"
+	flare1.src="./img/flare.gif"
+	flare2.src="./img/flare.gif"
+	setTimeout(()=>{
+		clearInterval(check)
+		flare.style.top=-1000
+		enemyLaserY=5
+		enemyLaser.style.top=enemyLaserY
+		flare1.style.top=-1000
+		enemyLaserY1=-70
+		enemyLaser1.style.top=enemyLaserY1
+		enemyLaserY2=344
+		enemyLaser2.style.top=enemyLaserY2
+		flare2.style.top=-1000
+		enemyLaserY3=-70
+		enemyLaser3.style.top=enemyLaserY3
+		enemyLaserY4=344
+		enemyLaser4.style.top=enemyLaserY4
+		choose=Math.round(Math.random())
+		if(choose==0){
+			bossSpeed=0.5
+		}else if(choose==1){
+			bossSpeed=-0.5
+		}
+		var bossMove=setInterval(()=>{
+			bossX+=bossSpeed
+			boss.style.left=bossX
+			enemyLaserX+=bossSpeed
+			enemyLaser.style.left=enemyLaserX
+			enemyLaserX1+=bossSpeed
+			enemyLaser1.style.left=enemyLaserX1
+			enemyLaserX2+=bossSpeed
+			enemyLaser2.style.left=enemyLaserX2
+			enemyLaserX3+=bossSpeed
+			enemyLaser3.style.left=enemyLaserX3
+			enemyLaserX4+=bossSpeed
+			enemyLaser4.style.left=enemyLaserX4
+			if(bossX>=920){
+				bossSpeed=-0.5
+			}
+			if(bossX<=25){
+				bossSpeed=0.5
+				}if((laserX<bossX-835 && laserX>bossX-1000 && laserY<bossY+200)||(laserX<bossX-1080 && laserX>bossX-1250 && laserY<bossY+200)||(laserX<=bossX-1000 && laserX>=bossX-1080 && laserY<bossY+420)){
+				laserActivated=false
+				laserY=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+				laser.style.top = laserY
+				healthNum--
+				health=""
+				health = healthDefine(healthNum,health)
+				Opphealth=""
+				Opphealth = healthDefine(100-healthNum,Opphealth)
+				document.getElementById('score').innerHTML = "<h1><font color='red'>BOSS FIGHT<br><font color='grey'>"+Opphealth+"<font color='red'>"+health
+			}
+			if((laserX1<bossX-860 && laserX1>bossX-1025 && laserY1<bossY+200)||(laserX1<bossX-1105 && laserX1>bossX-1275 && laserY1<bossY+200)||(laserX1<=bossX-1025 && laserX1>=bossX-1105 && laserY1<bossY+420)){
+				laser1Activated=false
+				laserY1=1000-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6
+				laser1.style.top = laserY1
+				healthNum--
+				health=""
+				health = healthDefine(healthNum,health)
+				Opphealth=""
+				Opphealth = healthDefine(100-healthNum,Opphealth)
+				document.getElementById('score').innerHTML = "<h1><font color='red'>BOSS FIGHT<br><font color='grey'>"+Opphealth+"<font color='red'>"+health
+			}if(healthNum==0){
+				enemyLaserY=-1000
+				enemyLaser.style.top=enemyLaserY
+				enemyLaserY1=-1000
+				enemyLaser1.style.top=enemyLaserY1
+				enemyLaserY2=1000
+				enemyLaser2.style.top=enemyLaserY2
+				enemyLaserY3=-1000
+				enemyLaser3.style.top=enemyLaserY3
+				enemyLaserY4=1000
+				enemyLaser4.style.top=enemyLaserY4
+				transition3()
+				clearInterval(bossMove)
+			}if(playerX<bossX-570-enemyXval8-enemyXval9 && playerX>bossX-910-enemyXval8-enemyXval9){
+				bossGameOver(4)
+				clearInterval(bossMove)
+			}
+		},1)
+	},2400)
+}
+function transition3(){
+	moveAllowed=false
+	if(bossX>475){
+		var bossMove=setInterval(()=>{
+			bossSpeed=-0.5
+			bossX+=bossSpeed
+			boss.style.left=bossX
+			if(bossX<475){
+				bossX=475
+				boss.style.left=bossX
+				if(playerX==615-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9 && bossX==475){
+					Endgame5()
+				}
+				clearInterval(bossMove)
+			}	
+		},1)
+	}else if(bossX<475){
+		var bossMove=setInterval(()=>{
+			bossSpeed=0.5
+			bossX+=bossSpeed
+			boss.style.left=bossX
+			if(bossX>475){
+				bossX=475
+				boss.style.left=bossX
+				if(playerX==615-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9 && bossX==475){
+					Endgame5()
+				}
+				clearInterval(bossMove)
+			}	
+		},1)
+	}if(playerX>615-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9){
+		var playerMove=setInterval(()=>{
+			var playerSpeed=-0.7
+			playerX+=playerSpeed
+			playerShip.style.left=playerX
+			if(playerX<615-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9){
+				playerX=615-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9
+				playerShip.style.left=playerX
+				if(playerX==615-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9 && bossX==475){
+					Endgame5()
+				}
+				clearInterval(playerMove)
+			}	
+		},1)
+	}else if(playerX<615-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9){
+		var playerMove=setInterval(()=>{
+			var playerSpeed=0.7
+			playerX+=playerSpeed
+			playerShip.style.left=playerX
+			if(playerX>615-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9){
+				playerX=615-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9
+				playerShip.style.left=playerX
+				if(playerX==615-enemyXval-enemyXval1-enemyXval2-enemyXval3-enemyXval4-enemyXval5-enemyXval6-enemyXval7-enemyXval8-enemyXval9 && bossX==475){
+					Endgame5()
+				}
+				clearInterval(playerMove)
+			}	
+		},1)
+	}
+}
+function Endgame5(){
+	flare1.style.top=-420
+	flare1.src="./img/flare.gif"
+	flare2.style.top=-420
+	flare2.src="./img/flare.gif"
+	setTimeout(()=>{
+		flare1.style.top=-1000
+		enemyLaserY1=-70
+		enemyLaser1.style.top=enemyLaserY1
+		enemyLaserX1=-80
+		enemyLaser1.style.left=enemyLaserX1
+		enemyLaserY2=344
+		enemyLaser2.style.top=enemyLaserY2
+		enemyLaserX2=-150
+		enemyLaser2.style.left=enemyLaserX2
+		flare2.style.top=-1000
+		enemyLaserY3=-70
+		enemyLaser3.style.top=enemyLaserY3
+		enemyLaserX3=-520
+		enemyLaser3.style.left=enemyLaserX3
+		enemyLaserY4=344
+		enemyLaser4.style.top=enemyLaserY4
+		enemyLaserX4=-590
+		enemyLaser4.style.left=enemyLaserX4
+		flare.style.top=-150
+		flare.src="./img/flare.gif"
+		setTimeout(()=>{
+			laserY=400-enemyYval-enemyYval1-enemyYval2-enemyYval3-enemyYval4-enemyYval5-enemyYval6-enemyYval7-enemyYval8-enemyYval9
+			laserX=playerX-72.5
+			laser.style.left= laserX
+			var laserMove = setInterval(()=>{
+				laserY-=3
+				laser.style.top= laserY
+				if(laserY<bossY+420){
+					flare.style.top=-1000
+					laserY=-1000
+					laser.style.top= laserY
+					bossDefeat()
+					clearInterval(laserMove)
+				}
+			},1)
+		},2150)
+	},2400)
+}
+function bossDefeat(){
+	boss.src="./img/enemy3.gif"
+	setTimeout(()=>{
+		enemyLaser3.style.top=-1000
+		enemyLaser4.style.top=-1000
+		bossExplosion.style.top=-460
+		setTimeout(()=>{
+			enemyLaser1.style.top=-1000
+			enemyLaser2.style.top=-1000
+			bossExplosion1.style.top=-1462
+			setTimeout(()=>{
+				boss.src="./img/bossExplosion.gif"
+				bossExplosion.style.top=-1000
+				bossExplosion1.style.top=-2000
+				setTimeout(()=>{
+					boss.style.top=-1000
+					setTimeout(()=>{
+						document.getElementById('score').innerHTML= "<h1><u><b><font color='skyblue'>YOU WIN!</font></b></u><br>You have defeated the invading alien fleet!"
+						var endAnimation = setInterval(()=>{
+							earthY-=1
+							earth.style.top=earthY
+							playerY-=0.5
+							playerShip.style.top=playerY
+							if(earthY==-250){
+								clearInterval(endAnimation)
+							}
+						},1)
+					},500)
+				},3470)
+			},1275)
+		},1275)
+	},1275)
+}
+function healthDefine(healthNum,health){
+	var i
+	for (i = 0; i < healthNum; i++) {
+		health+="-"
+	}
+	return health
+}
+
+function bossGameOver(stage){
+	playerShip.src='./img/explosion.gif'
+	moveAllowed = false
+	setTimeout(()=>{
+		document.getElementById('score').innerHTML= "<h1><u><b><font color='red'>GAME OVER</font></b></u><br>Your -<font color='firebrick'>- Boss Stage "+stage+" -</font>- Score"
+		setTimeout(()=>{
+			playerShip.remove()
+		},2125)
+	},1000)
+}
+
+}
+</script>
+</body>
+</html>
